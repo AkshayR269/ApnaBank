@@ -1,4 +1,4 @@
-package apexbank_backend;
+package apnabank_backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
