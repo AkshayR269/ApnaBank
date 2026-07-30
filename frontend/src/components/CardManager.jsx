@@ -25,7 +25,7 @@ export const CardManager = ({ card, onCardUpdate }) => {
     if (!showDetails) {
       return `•••• •••• •••• ${num.slice(-4)}`;
     }
-    return num.replace(/(.{4})/g, '$1 ').trim();
+    return num.replace(/(.{4})/g, '₹1 ').trim();
   };
 
   return (
@@ -118,7 +118,7 @@ export const CardManager = ({ card, onCardUpdate }) => {
           </div>
           <div className="flex justify-between">
             <span className="text-slate-500">Daily ATM Limit:</span>
-            <span className="font-medium text-slate-800">$1,000.00</span>
+            <span className="font-medium text-slate-800">₹1,000.00</span>
           </div>
           <div className="flex justify-between">
             <span className="text-slate-500">Contactless Payment:</span>

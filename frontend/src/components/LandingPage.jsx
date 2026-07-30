@@ -42,7 +42,7 @@ export const LandingPage = ({ onOpenAuth }) => {
 
           {/* Security Banner */}
           <div className="pt-6 flex flex-wrap items-center justify-center gap-6 text-xs text-slate-500 border-t border-slate-100 max-w-lg mx-auto mt-6">
-            <span className="flex items-center"><ShieldCheck className="w-3.5 h-3.5 text-emerald-600 mr-1" /> FDIC Insured ($250,000)</span>
+            <span className="flex items-center"><ShieldCheck className="w-3.5 h-3.5 text-emerald-600 mr-1" /> FDIC Insured (₹250,000)</span>
             <span className="flex items-center"><Lock className="w-3.5 h-3.5 text-slate-600 mr-1" /> 256-bit AES Security</span>
             <span className="flex items-center"><CheckCircle className="w-3.5 h-3.5 text-slate-600 mr-1" /> No Hidden Maintenance Fees</span>
           </div>

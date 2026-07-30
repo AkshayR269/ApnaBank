@@ -44,14 +44,14 @@ export const TransferModal = ({ isOpen, onClose, accounts = [], onSuccess }) => 
     }
 
     if (currentSource && parseFloat(currentSource.balance) < numAmount) {
-      setError(`Insufficient funds! Available balance: $${parseFloat(currentSource.balance).toFixed(2)}`);
+      setError(`Insufficient funds! Available balance: ₹${parseFloat(currentSource.balance).toFixed(2)}`);
       return;
     }
 
     setLoading(true);
     try {
       await bankApi.transferMoney(sourceId, targetAccountNumber, numAmount, description);
-      setSuccessMsg(`Successfully transferred $${numAmount.toFixed(2)} to ${targetAccountNumber}`);
+      setSuccessMsg(`Successfully transferred ₹${numAmount.toFixed(2)} to ${targetAccountNumber}`);
       
       // Instantly trigger parent state refetch
       if (onSuccess) {
@@ -159,7 +159,7 @@ export const TransferModal = ({ isOpen, onClose, accounts = [], onSuccess }) => 
 
           {/* Amount */}
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Transfer Amount ($ USD)</label>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Transfer Amount (₹ INR)</label>
             <input
               type="number"
               step="0.01"

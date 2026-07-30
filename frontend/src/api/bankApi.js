@@ -129,7 +129,7 @@ export const bankApi = {
       const sourceAcc = db.accounts.find(a => a.id === sourceAccountId || a.accountNumber === sourceAccountId);
       
       if (!sourceAcc) throw new Error('Source account not found');
-      if (sourceAcc.balance < numAmount) throw new Error(`Insufficient funds! Available balance: $${sourceAcc.balance.toFixed(2)}`);
+      if (sourceAcc.balance < numAmount) throw new Error(`Insufficient funds! Available balance: ₹${sourceAcc.balance.toFixed(2)}`);
 
       sourceAcc.balance -= numAmount;
 

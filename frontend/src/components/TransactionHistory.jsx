@@ -101,7 +101,7 @@ export const TransactionHistory = ({ transactions = [] }) => {
                     <td className={`py-3 px-3 text-right font-bold text-xs ${
                       isDeposit ? 'text-emerald-700' : 'text-slate-900'
                     }`}>
-                      {isDeposit ? '+' : '-'}${parseFloat(txn.amount || 0).toFixed(2)}
+                      {isDeposit ? '+' : '-'}₹{parseFloat(txn.amount || 0).toFixed(2)}
                     </td>
 
                     <td className="py-3 px-3 text-center">
@@ -143,7 +143,7 @@ export const TransactionHistory = ({ transactions = [] }) => {
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Amount:</span>
-                <span className="font-bold text-sm">${parseFloat(selectedTxn.amount).toFixed(2)}</span>
+                <span className="font-bold text-sm">₹{parseFloat(selectedTxn.amount).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-500">Source Account:</span>

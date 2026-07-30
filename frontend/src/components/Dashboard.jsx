@@ -27,11 +27,11 @@ export const Dashboard = ({ accounts = [], onOpenTransfer, onOpenDeposit, onRefr
               <span>Total Liquid Assets</span>
             </div>
             <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-              ${totalNetWorth.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              ₹{totalNetWorth.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </h1>
             <p className="text-xs text-slate-500 mt-1.5 flex items-center">
               <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 mr-1" />
-              FDIC Insured Up To $250,000 • Verified Live Balance
+              FDIC Insured Up To ₹250,000 • Verified Live Balance
             </p>
           </div>
 
@@ -83,7 +83,7 @@ export const Dashboard = ({ accounts = [], onOpenTransfer, onOpenDeposit, onRefr
           <div>
             <p className="text-xs text-slate-400">Available Balance</p>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 text-white">
-              ${(parseFloat(checking.balance) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              ₹{(parseFloat(checking.balance) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </h2>
           </div>
         </div>
@@ -105,7 +105,7 @@ export const Dashboard = ({ accounts = [], onOpenTransfer, onOpenDeposit, onRefr
           <div>
             <p className="text-xs text-blue-200">Total Savings Balance</p>
             <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mt-1 text-white">
-              ${(parseFloat(savings.balance) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+              ₹{(parseFloat(savings.balance) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
             </h2>
           </div>
         </div>

@@ -28,7 +28,7 @@ export const DepositModal = ({ isOpen, onClose, accounts, onSuccess }) => {
     setLoading(true);
     try {
       await bankApi.depositMoney(targetId, numAmount, description);
-      setSuccessMsg(`Successfully deposited $${numAmount.toFixed(2)}`);
+      setSuccessMsg(`Successfully deposited ₹${numAmount.toFixed(2)}`);
       setTimeout(() => {
         onSuccess();
         onClose();
@@ -94,7 +94,7 @@ export const DepositModal = ({ isOpen, onClose, accounts, onSuccess }) => {
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Deposit Amount ($ USD)</label>
+            <label className="block text-xs font-semibold text-slate-300 mb-1.5 uppercase tracking-wider">Deposit Amount (₹ INR)</label>
             <input
               type="number"
               step="0.01"
