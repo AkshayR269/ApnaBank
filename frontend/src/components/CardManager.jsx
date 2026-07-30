@@ -29,24 +29,24 @@ export const CardManager = ({ card, onCardUpdate }) => {
   };
 
   return (
-    <div className="glass-panel p-7 rounded-3xl border border-slate-700/50 shadow-xl space-y-6">
+    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
       <div className="flex items-center justify-between">
         <div>
-          <h3 className="text-xl font-bold text-white flex items-center">
-            <CreditCard className="w-5 h-5 text-indigo-400 mr-2" />
-            Virtual Debit Card Controls
+          <h3 className="text-base font-bold text-slate-900 flex items-center">
+            <CreditCard className="w-4 h-4 text-blue-700 mr-2" />
+            Debit Card Controls
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">Manage security & instant card lock</p>
+          <p className="text-xs text-slate-500 mt-0.5">Manage virtual card security and lock status</p>
         </div>
 
         {/* Freeze/Unfreeze Button */}
         <button
           onClick={handleToggleFreeze}
           disabled={loading}
-          className={`flex items-center space-x-2 px-4 py-2 rounded-xl text-xs font-semibold border transition ${
+          className={`flex items-center space-x-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border transition ${
             card.isFrozen
-              ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/30 hover:bg-emerald-500/20'
-              : 'bg-rose-500/10 text-rose-400 border-rose-500/30 hover:bg-rose-500/20'
+              ? 'bg-emerald-50 text-emerald-700 border-emerald-300 hover:bg-emerald-100'
+              : 'bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-100'
           }`}
         >
           {card.isFrozen ? <Unlock className="w-3.5 h-3.5" /> : <Lock className="w-3.5 h-3.5" />}
@@ -55,80 +55,74 @@ export const CardManager = ({ card, onCardUpdate }) => {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-        {/* Physical Virtual Card Visualizer */}
-        <div className={`lg:col-span-2 p-6 rounded-2xl shadow-2xl relative overflow-hidden text-white flex flex-col justify-between h-52 transition-all duration-300 ${
+        {/* Debit Card Visual */}
+        <div className={`lg:col-span-2 p-6 rounded-xl shadow-xs relative overflow-hidden text-white flex flex-col justify-between h-48 transition-all ${
           card.isFrozen
-            ? 'bg-slate-900 border-2 border-rose-500/40 opacity-80'
-            : 'bg-gradient-to-tr from-slate-900 via-indigo-950 to-slate-900 border border-slate-700'
+            ? 'bg-slate-800 opacity-75 border border-rose-400'
+            : 'bg-slate-900 border border-slate-800'
         }`}>
-          {/* Card Overlay Lock Notice if Frozen */}
           {card.isFrozen && (
-            <div className="absolute inset-0 bg-slate-950/80 backdrop-blur-sm z-20 flex flex-col items-center justify-center space-y-2">
-              <ShieldAlert className="w-8 h-8 text-rose-400 animate-bounce" />
-              <p className="text-sm font-bold text-rose-400">CARD FROZEN & LOCKED</p>
-              <p className="text-xs text-slate-400">Transactions temporarily disabled</p>
+            <div className="absolute inset-0 bg-slate-950/80 z-20 flex flex-col items-center justify-center space-y-1">
+              <ShieldAlert className="w-6 h-6 text-rose-400" />
+              <p className="text-xs font-bold text-rose-400 uppercase tracking-wider">CARD FROZEN</p>
+              <p className="text-[10px] text-slate-300">Transactions Temporarily Blocked</p>
             </div>
           )}
 
-          {/* Top Row: Chip & Contactless */}
           <div className="flex justify-between items-center relative z-10">
-            <span className="text-xs font-black uppercase tracking-widest text-indigo-300">ApexBank Visa</span>
-            <div className="flex items-center space-x-2">
-              <button
-                onClick={() => setShowDetails(!showDetails)}
-                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-300 transition"
-                title={showDetails ? 'Mask Details' : 'Show Details'}
-              >
-                {showDetails ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
-              </button>
-            </div>
+            <span className="text-xs font-bold tracking-wider uppercase text-slate-300">ApexBank Visa</span>
+            <button
+              onClick={() => setShowDetails(!showDetails)}
+              className="p-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 transition"
+              title={showDetails ? 'Mask Details' : 'Show Details'}
+            >
+              {showDetails ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
+            </button>
           </div>
 
-          {/* Card Number */}
           <div className="relative z-10 my-auto">
-            <p className="text-xl sm:text-2xl font-mono tracking-wider font-bold text-slate-100">
+            <p className="text-lg sm:text-xl font-mono tracking-widest font-bold text-white">
               {formatCardNumber(card.cardNumber)}
             </p>
           </div>
 
-          {/* Bottom Row: Name & Expiry */}
           <div className="flex justify-between items-end relative z-10 text-xs">
             <div>
-              <p className="text-[10px] uppercase text-slate-400 font-semibold">Cardholder</p>
-              <p className="font-bold tracking-wide mt-0.5">{card.cardHolderName || 'ALEX MORGAN'}</p>
+              <p className="text-[9px] uppercase text-slate-400 font-semibold">Cardholder</p>
+              <p className="font-bold tracking-wide mt-0.5 text-slate-100">{card.cardHolderName || 'ALEX MORGAN'}</p>
             </div>
             <div className="flex space-x-4">
               <div>
-                <p className="text-[10px] uppercase text-slate-400 font-semibold">Expires</p>
-                <p className="font-mono font-bold mt-0.5">{card.expiryDate || '12/28'}</p>
+                <p className="text-[9px] uppercase text-slate-400 font-semibold">Expires</p>
+                <p className="font-mono font-bold mt-0.5 text-slate-100">{card.expiryDate || '12/28'}</p>
               </div>
               <div>
-                <p className="text-[10px] uppercase text-slate-400 font-semibold">CVV</p>
-                <p className="font-mono font-bold mt-0.5">{showDetails ? card.cvv : '•••'}</p>
+                <p className="text-[9px] uppercase text-slate-400 font-semibold">CVV</p>
+                <p className="font-mono font-bold mt-0.5 text-slate-100">{showDetails ? card.cvv : '•••'}</p>
               </div>
             </div>
           </div>
         </div>
 
         {/* Card Info Box */}
-        <div className="p-5 rounded-2xl bg-slate-800/60 border border-slate-700/50 text-xs space-y-3">
+        <div className="p-4 rounded-xl bg-slate-50 border border-slate-200 text-xs space-y-2.5">
           <div className="flex justify-between">
-            <span className="text-slate-400">Card Status:</span>
-            <span className={`font-bold ${card.isFrozen ? 'text-rose-400' : 'text-emerald-400'}`}>
+            <span className="text-slate-500">Status:</span>
+            <span className={`font-semibold ${card.isFrozen ? 'text-rose-600' : 'text-emerald-700'}`}>
               {card.isFrozen ? 'FROZEN' : 'ACTIVE'}
             </span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-400">Linked Account:</span>
-            <span className="font-mono text-slate-200">Checking (ACC-98421054)</span>
+            <span className="text-slate-500">Linked Account:</span>
+            <span className="font-mono text-slate-800">Checking (ACC-98421054)</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-400">Daily ATM Limit:</span>
-            <span className="font-bold text-slate-200">$1,000.00</span>
+            <span className="text-slate-500">Daily ATM Limit:</span>
+            <span className="font-medium text-slate-800">$1,000.00</span>
           </div>
           <div className="flex justify-between">
-            <span className="text-slate-400">International Usage:</span>
-            <span className="text-emerald-400 font-semibold">Enabled</span>
+            <span className="text-slate-500">Contactless Payment:</span>
+            <span className="text-emerald-700 font-medium">Enabled</span>
           </div>
         </div>
       </div>

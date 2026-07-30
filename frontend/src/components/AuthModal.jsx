@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { Landmark, Lock, Mail, User, ArrowRight, ShieldCheck, Zap } from 'lucide-react';
+import { Landmark, Lock, Mail, User, ArrowRight, Zap } from 'lucide-react';
 
 export const AuthModal = ({ isOpen, onClose }) => {
   const [isRegister, setIsRegister] = useState(false);
@@ -26,7 +26,7 @@ export const AuthModal = ({ isOpen, onClose }) => {
       }
       onClose();
     } catch (err) {
-      setError(err.message || 'Authentication failed. Please try again.');
+      setError(err.message || 'Authentication failed.');
     } finally {
       setSubmitting(false);
     }
@@ -46,104 +46,100 @@ export const AuthModal = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-      <div className="glass-panel w-full max-w-md p-8 rounded-3xl shadow-2xl border border-slate-700/60 relative overflow-hidden animate-in fade-in zoom-in duration-200">
-        {/* Glow Effects */}
-        <div className="absolute -top-24 -right-24 w-48 h-48 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-violet-500/20 rounded-full blur-3xl pointer-events-none"></div>
-
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+      <div className="bg-white w-full max-w-md p-6 sm:p-8 rounded-2xl shadow-lg border border-slate-200 relative text-slate-900">
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center mx-auto mb-3 shadow-lg shadow-indigo-500/30">
-            <Landmark className="w-6 h-6 text-white" />
+        <div className="text-center mb-6">
+          <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center mx-auto mb-2.5">
+            <Landmark className="w-5 h-5" />
           </div>
-          <h2 className="text-2xl font-bold text-white tracking-tight">
-            {isRegister ? 'Create ApexBank Account' : 'Welcome to ApexBank'}
+          <h2 className="text-xl font-bold text-slate-900">
+            {isRegister ? 'Open ApexBank Account' : 'Sign In to Online Banking'}
           </h2>
-          <p className="text-sm text-slate-400 mt-1">
-            {isRegister ? 'Enter your details to open Checking & Savings accounts' : 'Access your accounts and transaction ledger'}
+          <p className="text-xs text-slate-500 mt-1">
+            {isRegister ? 'Enter your details to open accounts' : 'Access your Checking, Savings & Cards'}
           </p>
         </div>
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 p-3 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-sm text-center">
+          <div className="mb-4 p-3 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs text-center">
             {error}
           </div>
         )}
 
-        {/* 1-Click Demo Login Quick Bar */}
+        {/* 1-Click Demo Login Bar */}
         {!isRegister && (
-          <div className="mb-6 p-4 rounded-2xl bg-slate-800/60 border border-slate-700/50">
-            <p className="text-xs font-semibold uppercase tracking-wider text-indigo-400 mb-3.5 flex items-center justify-center">
-              <Zap className="w-3.5 h-3.5 mr-1" /> 1-Click Demo Access
+          <div className="mb-5 p-3.5 rounded-xl bg-slate-50 border border-slate-200">
+            <p className="text-[11px] font-semibold uppercase tracking-wider text-slate-600 mb-2 flex items-center justify-center">
+              <Zap className="w-3 h-3 text-blue-700 mr-1" /> Quick Demo Access
             </p>
-            <div className="grid grid-cols-2 gap-2.5">
+            <div className="grid grid-cols-2 gap-2">
               <button
                 type="button"
                 onClick={() => handleDemoLogin('alex.morgan@apexbank.com', 'Alex Morgan')}
-                className="px-3 py-2 rounded-xl bg-slate-700/60 hover:bg-indigo-600/30 border border-slate-600/50 text-xs font-medium text-slate-200 transition text-center"
+                className="px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-800 transition text-center"
               >
                 Alex Morgan
-                <span className="block text-[10px] text-slate-400 font-normal">Primary Checking</span>
+                <span className="block text-[9px] text-slate-500">Checking Account</span>
               </button>
               <button
                 type="button"
                 onClick={() => handleDemoLogin('sarah.connor@apexbank.com', 'Sarah Connor')}
-                className="px-3 py-2 rounded-xl bg-slate-700/60 hover:bg-indigo-600/30 border border-slate-600/50 text-xs font-medium text-slate-200 transition text-center"
+                className="px-2.5 py-1.5 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-xs font-medium text-slate-800 transition text-center"
               >
                 Sarah Connor
-                <span className="block text-[10px] text-slate-400 font-normal">Premium Savings</span>
+                <span className="block text-[9px] text-slate-500">Savings Account</span>
               </button>
             </div>
           </div>
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-3.5">
           {isRegister && (
             <div>
-              <label className="block text-xs font-medium text-slate-300 mb-1.5">Full Name</label>
+              <label className="block text-xs font-medium text-slate-700 mb-1">Full Name</label>
               <div className="relative">
-                <User className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+                <User className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
                 <input
                   type="text"
                   required
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
                   placeholder="e.g. Alex Morgan"
-                  className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition"
+                  className="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-700"
                 />
               </div>
             </div>
           )}
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">Email Address</label>
+            <label className="block text-xs font-medium text-slate-700 mb-1">Email Address</label>
             <div className="relative">
-              <Mail className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <Mail className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
               <input
                 type="email"
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="alex.morgan@apexbank.com"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition"
+                className="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-700"
               />
             </div>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-300 mb-1.5">Password</label>
+            <label className="block text-xs font-medium text-slate-700 mb-1">Password</label>
             <div className="relative">
-              <Lock className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+              <Lock className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-3" />
               <input
                 type="password"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
-                className="w-full pl-10 pr-4 py-2.5 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500 transition"
+                className="w-full pl-9 pr-3 py-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-700"
               />
             </div>
           </div>
@@ -151,20 +147,19 @@ export const AuthModal = ({ isOpen, onClose }) => {
           <button
             type="submit"
             disabled={submitting}
-            className="w-full mt-2 py-3 rounded-xl bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-semibold text-sm shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2"
+            className="w-full mt-2 py-2.5 rounded-lg bg-blue-700 hover:bg-blue-800 text-white font-medium text-xs shadow-xs transition flex items-center justify-center space-x-1.5"
           >
-            <span>{submitting ? 'Authenticating...' : isRegister ? 'Register & Provision Accounts' : 'Sign In'}</span>
-            <ArrowRight className="w-4 h-4" />
+            <span>{submitting ? 'Authenticating...' : isRegister ? 'Register Account' : 'Sign In'}</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </button>
         </form>
 
-        {/* Toggle Signup/Login */}
-        <div className="mt-6 text-center text-xs text-slate-400">
-          {isRegister ? 'Already have an account?' : "Don't have an account yet?"}{' '}
+        <div className="mt-5 text-center text-xs text-slate-500">
+          {isRegister ? 'Already registered?' : 'New to ApexBank?'}{' '}
           <button
             type="button"
             onClick={() => setIsRegister(!isRegister)}
-            className="text-indigo-400 hover:text-indigo-300 font-semibold underline underline-offset-2 ml-1"
+            className="text-blue-700 hover:underline font-semibold ml-0.5"
           >
             {isRegister ? 'Sign In' : 'Create Account'}
           </button>

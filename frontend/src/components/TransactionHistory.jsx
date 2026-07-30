@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import { Search, ArrowUpRight, ArrowDownLeft, FileText, Filter, Calendar } from 'lucide-react';
+import { Search, ArrowUpRight, ArrowDownLeft, FileText, Filter } from 'lucide-react';
 
-export const TransactionHistory = ({ transactions }) => {
+export const TransactionHistory = ({ transactions = [] }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState('ALL');
   const [selectedTxn, setSelectedTxn] = useState(null);
@@ -19,60 +19,58 @@ export const TransactionHistory = ({ transactions }) => {
   });
 
   return (
-    <div className="glass-panel p-7 rounded-3xl border border-slate-700/50 shadow-xl space-y-6">
-      {/* Header & Filters Bar */}
+    <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-xs space-y-5">
+      {/* Header & Filter Controls */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h3 className="text-xl font-bold text-white flex items-center">
-            <FileText className="w-5 h-5 text-indigo-400 mr-2" />
-            Transaction Ledger & Activity
+          <h3 className="text-base font-bold text-slate-900 flex items-center">
+            <FileText className="w-4 h-4 text-blue-700 mr-2" />
+            Transaction History
           </h3>
-          <p className="text-xs text-slate-400 mt-0.5">Real-time audit history of debits and credits</p>
+          <p className="text-xs text-slate-500 mt-0.5">Real-time record of account debits and credits</p>
         </div>
 
-        {/* Search & Filter Controls */}
-        <div className="flex flex-wrap items-center gap-3">
-          {/* Search Box */}
+        {/* Search & Filters */}
+        <div className="flex flex-wrap items-center gap-2.5">
           <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3" />
+            <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               placeholder="Search transactions..."
-              className="pl-9 pr-4 py-2 rounded-xl bg-slate-800/80 border border-slate-700 text-white placeholder-slate-500 text-xs focus:outline-none focus:border-indigo-500 w-52"
+              className="pl-8 pr-3 py-1.5 rounded-lg bg-slate-50 border border-slate-200 text-slate-900 placeholder-slate-400 text-xs focus:outline-none focus:border-blue-600 w-48"
             />
           </div>
 
-          {/* Filter Dropdown */}
-          <div className="flex items-center space-x-2 bg-slate-800/80 border border-slate-700 rounded-xl px-3 py-2">
+          <div className="flex items-center space-x-1.5 bg-slate-50 border border-slate-200 rounded-lg px-2.5 py-1.5">
             <Filter className="w-3.5 h-3.5 text-slate-400" />
             <select
               value={filterType}
               onChange={(e) => setFilterType(e.target.value)}
-              className="bg-transparent text-xs text-slate-200 focus:outline-none"
+              className="bg-transparent text-xs text-slate-700 focus:outline-none"
             >
-              <option value="ALL" className="bg-slate-900 text-white">All Types</option>
-              <option value="TRANSFER" className="bg-slate-900 text-white">Transfers</option>
-              <option value="DEPOSIT" className="bg-slate-900 text-white">Deposits</option>
+              <option value="ALL">All Transactions</option>
+              <option value="TRANSFER">Transfers</option>
+              <option value="DEPOSIT">Deposits</option>
             </select>
           </div>
         </div>
       </div>
 
-      {/* Transactions Table */}
+      {/* Table */}
       <div className="overflow-x-auto">
-        <table className="w-full text-left text-sm text-slate-300">
-          <thead className="text-xs uppercase tracking-wider text-slate-400 border-b border-slate-700/60 pb-3">
+        <table className="w-full text-left text-xs text-slate-600">
+          <thead className="bg-slate-50 text-[11px] uppercase tracking-wider text-slate-500 border-y border-slate-200">
             <tr>
-              <th className="py-3 px-4">Transaction</th>
-              <th className="py-3 px-4">Ref Number</th>
-              <th className="py-3 px-4">Date & Time</th>
-              <th className="py-3 px-4 text-right">Amount</th>
-              <th className="py-3 px-4 text-center">Status</th>
+              <th className="py-2.5 px-3">Description</th>
+              <th className="py-2.5 px-3">Reference ID</th>
+              <th className="py-2.5 px-3">Date</th>
+              <th className="py-2.5 px-3 text-right">Amount</th>
+              <th className="py-2.5 px-3 text-center">Status</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-slate-800/60">
+          <tbody className="divide-y divide-slate-100">
             {filteredTxns.length > 0 ? (
               filteredTxns.map((txn) => {
                 const isDeposit = txn.transactionType === 'DEPOSIT';
@@ -80,39 +78,34 @@ export const TransactionHistory = ({ transactions }) => {
                   <tr
                     key={txn.id}
                     onClick={() => setSelectedTxn(txn)}
-                    className="hover:bg-slate-800/40 transition cursor-pointer group"
+                    className="hover:bg-slate-50 transition cursor-pointer"
                   >
-                    {/* Description & Icon */}
-                    <td className="py-4 px-4 flex items-center space-x-3">
-                      <div className={`w-9 h-9 rounded-xl flex items-center justify-center ${
-                        isDeposit ? 'bg-emerald-500/10 text-emerald-400' : 'bg-rose-500/10 text-rose-400'
+                    <td className="py-3 px-3 flex items-center space-x-2.5">
+                      <div className={`w-7 h-7 rounded-md flex items-center justify-center ${
+                        isDeposit ? 'bg-emerald-50 text-emerald-700' : 'bg-slate-100 text-slate-700'
                       }`}>
-                        {isDeposit ? <ArrowDownLeft className="w-4.5 h-4.5" /> : <ArrowUpRight className="w-4.5 h-4.5" />}
+                        {isDeposit ? <ArrowDownLeft className="w-3.5 h-3.5" /> : <ArrowUpRight className="w-3.5 h-3.5" />}
                       </div>
                       <div>
-                        <p className="font-semibold text-white group-hover:text-indigo-300 transition">{txn.description}</p>
-                        <p className="text-xs text-slate-400">{txn.category || 'General'}</p>
+                        <p className="font-semibold text-slate-900">{txn.description}</p>
+                        <p className="text-[10px] text-slate-400">{txn.category || 'General'}</p>
                       </div>
                     </td>
 
-                    {/* Reference Number */}
-                    <td className="py-4 px-4 font-mono text-xs text-slate-400">{txn.referenceNumber}</td>
+                    <td className="py-3 px-3 font-mono text-[11px] text-slate-500">{txn.referenceNumber}</td>
 
-                    {/* Date */}
-                    <td className="py-4 px-4 text-xs text-slate-400">
+                    <td className="py-3 px-3 text-slate-500">
                       {new Date(txn.timestamp).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}
                     </td>
 
-                    {/* Amount */}
-                    <td className={`py-4 px-4 text-right font-bold text-base ${
-                      isDeposit ? 'text-emerald-400' : 'text-slate-200'
+                    <td className={`py-3 px-3 text-right font-bold text-xs ${
+                      isDeposit ? 'text-emerald-700' : 'text-slate-900'
                     }`}>
                       {isDeposit ? '+' : '-'}${parseFloat(txn.amount || 0).toFixed(2)}
                     </td>
 
-                    {/* Status */}
-                    <td className="py-4 px-4 text-center">
-                      <span className="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                    <td className="py-3 px-3 text-center">
+                      <span className="inline-block px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-50 text-emerald-700 border border-emerald-200">
                         {txn.status}
                       </span>
                     </td>
@@ -121,7 +114,7 @@ export const TransactionHistory = ({ transactions }) => {
               })
             ) : (
               <tr>
-                <td colSpan="5" className="py-8 text-center text-slate-400 text-sm">
+                <td colSpan="5" className="py-6 text-center text-slate-400 text-xs">
                   No transactions match your search filter.
                 </td>
               </tr>
@@ -132,45 +125,45 @@ export const TransactionHistory = ({ transactions }) => {
 
       {/* Transaction Details Modal */}
       {selectedTxn && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md">
-          <div className="glass-panel w-full max-w-md p-6 rounded-3xl border border-slate-700/60 text-white space-y-4">
-            <div className="flex justify-between items-center pb-3 border-b border-slate-700">
-              <h4 className="font-bold text-lg">Transaction Receipt</h4>
-              <button onClick={() => setSelectedTxn(null)} className="text-slate-400 hover:text-white text-sm font-bold">✕</button>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-xs">
+          <div className="bg-white w-full max-w-sm p-6 rounded-xl border border-slate-200 shadow-lg space-y-4 text-slate-900">
+            <div className="flex justify-between items-center pb-2 border-b border-slate-200">
+              <h4 className="font-bold text-sm">Transaction Receipt</h4>
+              <button onClick={() => setSelectedTxn(null)} className="text-slate-400 hover:text-slate-600 text-xs font-bold">✕</button>
             </div>
 
-            <div className="space-y-3 text-sm">
+            <div className="space-y-2.5 text-xs">
               <div className="flex justify-between">
-                <span className="text-slate-400">Reference ID:</span>
-                <span className="font-mono text-indigo-400">{selectedTxn.referenceNumber}</span>
+                <span className="text-slate-500">Reference ID:</span>
+                <span className="font-mono font-semibold">{selectedTxn.referenceNumber}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Description:</span>
-                <span className="font-semibold">{selectedTxn.description}</span>
+                <span className="text-slate-500">Description:</span>
+                <span className="font-medium">{selectedTxn.description}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Amount:</span>
-                <span className="font-bold text-lg">${parseFloat(selectedTxn.amount).toFixed(2)}</span>
+                <span className="text-slate-500">Amount:</span>
+                <span className="font-bold text-sm">${parseFloat(selectedTxn.amount).toFixed(2)}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Source Account:</span>
-                <span className="font-mono text-xs">{selectedTxn.sourceAccountNumber}</span>
+                <span className="text-slate-500">Source Account:</span>
+                <span className="font-mono text-[11px]">{selectedTxn.sourceAccountNumber}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Target Account:</span>
-                <span className="font-mono text-xs">{selectedTxn.targetAccountNumber}</span>
+                <span className="text-slate-500">Target Account:</span>
+                <span className="font-mono text-[11px]">{selectedTxn.targetAccountNumber}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-slate-400">Date & Time:</span>
+                <span className="text-slate-500">Date & Time:</span>
                 <span>{new Date(selectedTxn.timestamp).toLocaleString()}</span>
               </div>
             </div>
 
             <button
               onClick={() => setSelectedTxn(null)}
-              className="w-full mt-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-sm font-semibold border border-slate-700 transition"
+              className="w-full py-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-800 text-xs font-medium border border-slate-200 transition"
             >
-              Close Receipt
+              Close
             </button>
           </div>
         </div>

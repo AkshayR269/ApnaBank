@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { bankApi } from '../api/bankApi';
 import { X, Send, AlertCircle, CheckCircle2, ArrowRightLeft } from 'lucide-react';
 
-export const TransferModal = ({ isOpen, onClose, accounts, onSuccess }) => {
+export const TransferModal = ({ isOpen, onClose, accounts = [], onSuccess }) => {
   const [sourceAccountId, setSourceAccountId] = useState('');
   const [targetAccountNumber, setTargetAccountNumber] = useState('');
   const [amount, setAmount] = useState('');
@@ -11,9 +11,15 @@ export const TransferModal = ({ isOpen, onClose, accounts, onSuccess }) => {
   const [successMsg, setSuccessMsg] = useState('');
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    if (accounts.length > 0 && !sourceAccountId) {
+      setSourceAccountId(accounts[0].id);
+    }
+  }, [accounts, sourceAccountId]);
+
   if (!isOpen) return null;
 
-  const currentSource = accounts.find(a => a.id === parseInt(sourceAccountId) || a.accountNumber === sourceAccountId) || accounts[0];
+  const currentSource = accounts.find(a => String(a.id) === String(sourceAccountId)) || accounts[0];
 
   const handleTransfer = async (e) => {
     e.preventDefault();
@@ -37,8 +43,8 @@ export const TransferModal = ({ isOpen, onClose, accounts, onSuccess }) => {
       return;
     }
 
-    if (currentSource && currentSource.balance < numAmount) {
-      setError(`Insufficient funds! Available balance: $${currentSource.balance.toFixed(2)}`);
+    if (currentSource && parseFloat(currentSource.balance) < numAmount) {
+      setError(`Insufficient funds! Available balance: $${parseFloat(currentSource.balance).toFixed(2)}`);
       return;
     }
 
@@ -46,14 +52,19 @@ export const TransferModal = ({ isOpen, onClose, accounts, onSuccess }) => {
     try {
       await bankApi.transferMoney(sourceId, targetAccountNumber, numAmount, description);
       setSuccessMsg(`Successfully transferred $${numAmount.toFixed(2)} to ${targetAccountNumber}`);
+      
+      // Instantly trigger parent state refetch
+      if (onSuccess) {
+        await onSuccess();
+      }
+
       setTimeout(() => {
-        onSuccess();
         onClose();
         setSuccessMsg('');
         setAmount('');
         setDescription('');
         setTargetAccountNumber('');
-      }, 1500);
+      }, 1200);
     } catch (err) {
       setError(err.message || 'Transfer failed. Please check details.');
     } finally {
@@ -109,25 +120,26 @@ export const TransferModal = ({ isOpen, onClose, accounts, onSuccess }) => {
             >
               {accounts.map(acc => (
                 <option key={acc.id} value={acc.id}>
-                  {acc.accountType} ({acc.accountNumber}) — Available: ${acc.balance?.toFixed(2)}
+                  {acc.accountType} ({acc.accountNumber}) — Available: ${parseFloat(acc.balance || 0).toFixed(2)}
                 </option>
               ))}
             </select>
           </div>
 
-          {/* Quick Internal Switch Helper */}
+          {/* Quick Self-Transfer Helper */}
           {accounts.length > 1 && (
             <div className="flex justify-end">
               <button
                 type="button"
                 onClick={() => {
-                  const other = accounts.find(a => a.id !== (parseInt(sourceAccountId) || accounts[0]?.id));
+                  const selectedIdStr = String(sourceAccountId || accounts[0]?.id);
+                  const other = accounts.find(a => String(a.id) !== selectedIdStr);
                   if (other) setTargetAccountNumber(other.accountNumber);
                 }}
                 className="text-xs text-indigo-400 hover:text-indigo-300 font-medium flex items-center space-x-1"
               >
                 <ArrowRightLeft className="w-3 h-3" />
-                <span>Autofill Own Savings Account</span>
+                <span>Autofill My Other Account Number</span>
               </button>
             </div>
           )}
@@ -166,7 +178,7 @@ export const TransferModal = ({ isOpen, onClose, accounts, onSuccess }) => {
               type="text"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
-              placeholder="e.g. Dinner share, Savings transfer"
+              placeholder="e.g. Savings transfer"
               className="w-full px-4 py-2.5 rounded-xl bg-slate-800 border border-slate-700 text-white placeholder-slate-500 text-sm focus:outline-none focus:border-indigo-500"
             />
           </div>
